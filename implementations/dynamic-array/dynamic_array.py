@@ -69,5 +69,4 @@ if __name__ == "__main__":
 
     for i in range(1, 21):
         da.append(i)
-        print
-        "Appended: %2d | Size: %2d | Capacity: %2d" % (i, len(da), da.capacity)
+        print("Appended: %2d | Size: %2d | Capacity: %2d" % (i, len(da), da.capacity))
