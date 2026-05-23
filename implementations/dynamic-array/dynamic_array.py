@@ -84,6 +84,15 @@ class DynamicArray(object):
         self.n=0
         self.capacity= 1
 
+    def find(self,item):
+        print(f"Finding index of {item}...")
+
+        for i in range(self.n):
+            if self.A[i] == item:
+                return i
+        return "Value not in list"
+
+
     def resize(self, new_capacity):
         #create new array with large capacity
         B = self._make_array(new_capacity)
@@ -137,6 +146,10 @@ print("After removing: ", arr)
 
 arr.pop()
 print("After pop: ", arr)
+
+
+print("found at index: ", arr.find(3))
+
 
 
 """
