@@ -21,23 +21,27 @@ for i in range(len(vals)): # range gets index of arr and loops index size
 
 import ctypes
 class DynamicArray(object):
-    def __init__(self): # constructor method
+    # constructor method complexity: 0(1)
+    def __init__(self):
         self.n = 0
         self.capacity = 1
         self.A=self._make_array(self.capacity)
 
+    # complexity: 0(1)
     def __len__(self):
         # len(obj)
         return self.n
 
+    # complexity: 0(1)
     def __getitem__(self, index):
-        if 0 <= index <= self.n:
+        if 0 <= index < self.n:
             return self.A[index]
         else:
             return "IndexError: DynamicArray index out of range"
 
+    # complexity: 0(n)
     def __delitem__(self, index):
-        if 0 <= index <= self.n:
+        if 0 <= index < self.n:
             #delete
             for i in range(index, self.n-1):
                 self.A[i] = self.A[i+1]
@@ -45,6 +49,8 @@ class DynamicArray(object):
         else:
             return "IndexError"
 
+    # complexity: 0(n) two nested loops. one searches for elements O(n) other shifts elements to overwrite.
+    # O(n) so O(n + n) is O(n)
     def remove(self, element):
         flag = 0
         for i in range(self.n):
@@ -57,33 +63,38 @@ class DynamicArray(object):
         if flag == 0:
             print("Element not found")
 
+    # complexity: 0(1) altho it calls resize method which is O(n) because capacity doubles ech time. the resizing happens less frequently.
     def append(self, item):
         if self.n == self.capacity: #cap = size full
             self.resize(2 * self.capacity) # double the capacity by resizing
         self.A[self.n] = item #adds new item to end of array
         self.n += 1
 
+    # complexity: 0(n) for loop shifts items..if inserting 0 all items in index after 0 shift to right.
     def insert(self, index, item):
         if 0 <= index < self.n:
             # do insertion
             if self.n == self.capacity:
-                self._resize(2 * self.size)
+                self.resize(2 * self.size)
 
             for i in range(self.n - 1, index - 1, -1):
                 self.A[i+1] = self.A[i]
             self.A[index] = item
-            self.n+1
+            self.n += 1
 
         else:
             return "IndexError"
 
+    # complexity: 0(1)
     def pop(self):
         self.n -= 1
 
+    # complexity: 0(1)
     def clear(self):
         self.n=0
         self.capacity= 1
 
+    # complexity: 0(n) if item is last in index must check all indexes
     def find(self,item):
         print(f"Finding index of {item}...")
 
@@ -92,7 +103,7 @@ class DynamicArray(object):
                 return i
         return "Value not in list"
 
-
+    # complexity: 0(n)
     def resize(self, new_capacity):
         #create new array with large capacity
         B = self._make_array(new_capacity)
@@ -104,10 +115,12 @@ class DynamicArray(object):
         #reassign
         self.A = B
 
+    # complexity: 0(1) calls return
     def _make_array(self, new_capacity):
         return(new_capacity * ctypes.py_object)()
 
     # able to print array in str format
+    # complexity: 0(n) iterates through all elements in loop
     def __str__(self):
             if self.n == 0:
                 return "[]"
