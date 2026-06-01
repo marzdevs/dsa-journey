@@ -1,8 +1,16 @@
 class Stack:
-    def __init__(self):
+    def __init__(self, max_size= None):
         self.items = []
+        # Store the maximum capacity limit
+        self.max_size = max_size
+
+    def is_full(self):
+        # The stack is full if its current size equals the max size
+        return len(self.items) == self.max_size
 
     def push(self, items):
+        if self.is_full():
+            return "StackOverflowError: Stack is full"
         self.items.append(items)
 
     def is_empty(self):
