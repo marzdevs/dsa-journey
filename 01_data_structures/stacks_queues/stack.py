@@ -34,7 +34,7 @@ class Stack:
 
 if __name__ == "__main__":
     print("--- Starting Stack Tests ---")
-    my_stack = Stack()
+    my_stack = Stack(3)
 
     # 1. Test Initial State
     print("Is empty initially?:", my_stack.is_empty())  # Expected: True
@@ -48,6 +48,7 @@ if __name__ == "__main__":
     my_stack.push(10)
     my_stack.push(20)
     my_stack.push(30)
+    my_stack.push(40)
 
     print("Is empty now?:", my_stack.is_empty())  # Expected: False
     print("Current size:", my_stack.size())  # Expected: 3
