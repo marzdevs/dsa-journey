@@ -13,3 +13,13 @@ class LinkedList:
 
     def empty(self):
         return self._size == 0
+
+    def push_front(self, value):
+        new_node = Node(value)
+        new_node.next = self.head
+        self.head = new_node
+        self._size += 1
+        return new_node
+
+
+
