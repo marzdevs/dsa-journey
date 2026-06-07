@@ -21,5 +21,11 @@ class LinkedList:
         self._size += 1
         return new_node
 
-
+    def pop_front(self):
+        if self.empty():
+            raise IndexError('empty list')
+        popped_value = self.head.val
+        self.head = self.head.next
+        self._size -= 1
+        return popped_value
 
