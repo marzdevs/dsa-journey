@@ -49,4 +49,31 @@ class LinkedList:
             # Don't forget to increase the size!
         self._size += 1
 
+    def pop_back(self):
+        # 1. Check if the train is completely empty
+        if self.empty():
+            raise IndexError('empty list')
 
+        # 2. Scenario A: Only 1 item in the list (The engine is the caboose)
+        if self.head.next is None:
+            popped_value = self.head.val
+            self.head = None
+            self._size -= 1
+            return popped_value
+
+        # 3. Scenario B: Multiple items in the list
+        current = self.head  # Start our guide at the front engine
+
+        # Walk down the track until current is standing on the second-to-last node
+        while current.next.next is not None:
+            current = current.next
+
+        # Grab the cargo value from the last node (caboose)
+        popped_value = current.next.val
+
+        # Unhook the last node by making current the new end of the train
+        current.next = None
+
+        # Shrink the size tracker and return the cargo
+        self._size -= 1
+        return popped_value
