@@ -78,4 +78,12 @@ class LinkedList:
         self._size -= 1
         return popped_value
 
-    def reverse(self):
+    def reverse(self, head):
+        prev, curr = None, head
+        # while curr not null
+        while curr:
+            next_node = curr.next
+            curr.next = prev
+            prev = curr
+            curr = next_node
+        return prev
