@@ -38,8 +38,13 @@ class Solution:
         prev, curr = None, head
         # while curr not null
         while curr:
-            next_node = curr.next
-            curr.next = prev
-            prev = curr
-            curr = next_node
+            # 1. Save the rest of the train before we unhook it
+            next_node = current.next
+
+            # 2. Flip the pointer backwards
+            current.next = prev
+
+            # 3. Move our trackers forward one step
+            prev = current
+            current = next_node
         return prev
