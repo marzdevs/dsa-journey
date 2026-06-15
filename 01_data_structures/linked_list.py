@@ -77,3 +77,5 @@ class LinkedList:
         # Shrink the size tracker and return the cargo
         self._size -= 1
         return popped_value
+
+    def reverse(self):
