@@ -20,3 +20,25 @@ class HashTable:
         index = self._hash_function(key)
         # Step 2: Grab the specific bucket
         bucket = self.table[index]
+
+        # Step 3: Clear out old duplicates if they exist
+        for k, v in bucket:
+            if k == key:
+                bucket.remove((k, v))
+                break
+
+        # Step 4: Add the fresh key-value pair
+        bucket.append((key, value))
+
+    def get(self, key, value):
+        # Step 1: Find the bucket index using our hash function
+        index = self._hash_function(key)
+        # Step 2: Grab the specific bucket
+        bucket = self.table[index]
+
+        # Step 3: Search the bucket
+        for k, v in bucket:
+            if k == key:
+                return v
+        # Step 4: The loop finished and found nothing
+        return "key not found"
