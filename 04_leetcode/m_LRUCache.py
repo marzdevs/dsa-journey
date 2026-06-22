@@ -33,55 +33,89 @@ Time Complexity: O(n)
 Space Complexity: O(1)
 """
 
-
 class Node:
     def __init__(self, key, value):
         self.key = key
         self.value = value
-        self.prev = None  # Pointer to the neighbor on the left
-        self.next = None  # Pointer to the neighbor on the right
+        self.prev = None  # Links to the train car physically ahead of this one
+        self.next = None  # Links to the train car physically behind this one
 
 
 class LRUCache:
     def __init__(self, capacity: int):
         self.cap = capacity
-        self.cache = dict()  # The Hash Map for O(1) lookups: maps key -> Node
-        self.head = Node(0, 0)  # Permanent boundary gate at the absolute front
-        self.tail = Node(0, 0)  # Permanent boundary gate at the absolute back
+        self.cache = dict()  # Our fast-pass map: lets us jump directly to any train car using its key
+        self.head = Node(0, 0)  # Permanent "Front Gate" of the station. Most recent items park right after this.
+        self.tail = Node(0, 0)  # Permanent "Back Gate" of the station. Oldest items sit right before this.
 
-        # Connect the front and back gates directly to each other at the start
+        # Initially, the station is empty, so the Front Gate and Back Gate hold hands directly
         self.head.next = self.tail
         self.tail.prev = self.head
 
     def remove(self, node: Node):
-        # 1. Look at the node's current left and right neighbors
-        prev_node = node.prev
-        next_node = node.next
+        """
+        Cuts a train car out of the line completely.
+        It tells the car's left and right neighbors to bypass it and hold hands with each other.
+        """
+        prev_node = node.prev  # Identify who is standing to the left
+        next_node = node.next  # Identify who is standing to the right
 
-        # 2. Tell the neighbors to hold hands with each other, skipping 'node'
-        prev_node.next = next_node
-        next_node.prev = prev_node
+        prev_node.next = next_node  # Tell the left neighbor to point past 'node' to the right neighbor
+        next_node.prev = prev_node  # Tell the right neighbor to point past 'node' to the left neighbor
 
     def insert(self, node: Node):
-        # 1. Grab the person currently standing first in line right after the head gate
+        """
+        Squeezes a train car into the VIP slot right after the Front Gate (self.head).
+        """
+        # 1. Identify who is currently first in line so we don't drop them in the dark
         current_first = self.head.next
 
-        # 2. The new node reaches out its left hand to hold the head gate
+        # 2. Make the new node hold hands with its new left neighbor (the Front Gate)
         self.head.next = node
         node.prev = self.head
 
-        # 3. The new node reaches out its right hand to hold the old first person
+        # 3. Make the new node hold hands with its new right neighbor (the old first node)
         node.next = current_first
         current_first.prev = node
 
-
     def get(self, key: int) -> int:
+        # Check our fast-pass map to see if the item exists
+        if key in self.cache:
+            node = self.cache[key]  # Jump straight to the physical train car
 
-        pass
+            # Since this item was just requested, it's now the "Most Recently Used"
+            # Refresh its status by pulling it out of line and sending it to the front
+            self.remove(node)
+            self.insert(node)
+
+            return node.value  # Deliver the requested data
+
+        # If the key isn't anywhere in our map, the item doesn't exist
+        return -1
 
     def put(self, key: int, value: int) -> None:
+        if key in self.cache:
+            # --- CASE 1: Updating an item we already have ---
+            node = self.cache[key]  # Find where it is currently parked
+            node.value = value  # Overwrite its old data with the new value
 
-        pass
+            # Move it to the front because it was just updated/used
+            self.remove(node)
+            self.insert(node)
+        else:
+            # --- CASE 2: Adding a completely brand new item ---
+            new_node = Node(key, value)  # Build a brand new train car
+            self.cache[key] = new_node  # Register its key in our fast-pass map
+            self.insert(new_node)  # Squeeze it into the front of the line
+
+            # --- CAPACITY CHECK: Did we just exceed our limit? ---
+            if len(self.cache) > self.cap:
+                # The victim is the absolute oldest car, which always sits right before the Back Gate
+                lru_node = self.tail.prev
+
+                # Permanently evict it: erase its map pass and rip it out of the line
+                del self.cache[lru_node.key]
+                self.remove(lru_node)
 
 # Your LRUCache object will be instantiated and called as such:
 # obj = LRUCache(capacity)
