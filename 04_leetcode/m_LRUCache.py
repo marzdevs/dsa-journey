@@ -38,17 +38,42 @@ class Node:
     def __init__(self, key, value):
         self.key = key
         self.value = value
-        self.prev = None
-        self.next = None
+        self.prev = None  # Pointer to the neighbor on the left
+        self.next = None  # Pointer to the neighbor on the right
+
 
 class LRUCache:
     def __init__(self, capacity: int):
         self.cap = capacity
-        self.cache = dict()
-        self.head = Node(0, 0)
-        self.tail = Node(0, 0)
+        self.cache = dict()  # The Hash Map for O(1) lookups: maps key -> Node
+        self.head = Node(0, 0)  # Permanent boundary gate at the absolute front
+        self.tail = Node(0, 0)  # Permanent boundary gate at the absolute back
+
+        # Connect the front and back gates directly to each other at the start
         self.head.next = self.tail
         self.tail.prev = self.head
+
+    def remove(self, node: Node):
+        # 1. Look at the node's current left and right neighbors
+        prev_node = node.prev
+        next_node = node.next
+
+        # 2. Tell the neighbors to hold hands with each other, skipping 'node'
+        prev_node.next = next_node
+        next_node.prev = prev_node
+
+    def insert(self, node: Node):
+        # 1. Grab the person currently standing first in line right after the head gate
+        current_first = self.head.next
+
+        # 2. The new node reaches out its left hand to hold the head gate
+        self.head.next = node
+        node.prev = self.head
+
+        # 3. The new node reaches out its right hand to hold the old first person
+        node.next = current_first
+        current_first.prev = node
+
 
     def get(self, key: int) -> int:
 
