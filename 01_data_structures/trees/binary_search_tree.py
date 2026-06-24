@@ -142,6 +142,29 @@ class BinarySearchTree:
             self._post_order_helper(current_node.right)  # 2. Clear out the right child side.
             print(current_node.val, end=" ")  # 3. Print the parent last.
 
+    # =========================================================================
+    # MAXIMUM DEPTH / HEIGHT
+    # =========================================================================
+    def get_max_depth(self):
+        """Public manager to ask how tall the whole tree is."""
+        if self.root is None:
+            return 0
+        # This passes the front door (root) to the worker so you don't have to!
+        return self._get_max_depth_helper(self.root)
+
+    def _get_max_depth_helper(self, current_node):
+        """
+        My plan here is to use post-order logic. I ask both sides how tall they are,
+        pick the winner, and add 1 to count the level I'm standing on.
+        """
+        # Case 1: If we step off an edge into nothing, it adds 0 to our height.
+        if current_node is None:
+            return 0
+        # Case 2: Otherwise, find out how deep both child paths go.
+        left_depth = self._get_max_depth_helper(current_node.left)
+        right_depth = self._get_max_depth_helper(current_node.right)
+        # Case 3: Take whichever side is taller, and add 1 to include ourselves!
+        return max(left_depth, right_depth) + 1
 
 # =========================================================================
 # 🧪 RUNNING TESTS
@@ -181,6 +204,10 @@ print("--- Search Tests ---")
 print("Searching for 30: ", tree.search(30))  # True
 print("Searching for 70: ", tree.search(70))  # True
 print("Searching for 99: ", tree.search(99))  # False
+print("----------------------------\n")
+
+print("--- Depth Test ---")
+print("Maximum Depth of Tree: ", tree.get_max_depth()) # Expected: 3
 print("----------------------------\n")
 
 print("--- Manual Pointer Checks ---")
