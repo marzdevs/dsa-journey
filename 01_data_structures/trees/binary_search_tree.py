@@ -33,14 +33,34 @@ class BinarySearchTree:
         else:
            return self._search_helper(self.root, value)
 
+    def _search_helper(self, current_node, value):
+        if current_node is None:
+            return False
+        if current_node.val == value:
+            return True
+        if value < current_node.val:
+            return self._search_helper(current_node.left, value)
+        else:
+            return self._search_helper(current_node.right, value)
+
+
+
+
+
+
 # Initialize your tree
 tree = BinarySearchTree()
 
 # Build the structure
+tree = BinarySearchTree()
 tree.insert(50)
 tree.insert(30)
 tree.insert(70)
 tree.insert(20)
+
+print(tree.search(30))  # Should print: True
+print(tree.search(70))  # Should print: True
+print(tree.search(99))  # Should print: False (it ran off the edge!)
 
 # Print values directly by following your pointer paths
 print("Root:", tree.root.val)          # Should be 50
