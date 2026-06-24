@@ -41,4 +41,4 @@ tree.insert(20)
 print("Root:", tree.root.val)          # Should be 50
 print("Left:", tree.root.left.val)     # Should be 30
 print("Right:", tree.root.right.val)   # Should be 70
-print("Far Left:", tree.root.left.left.val) # Should be 20
+print("Far Left of:", tree.root.left.left.val) # Should be 20
