@@ -27,6 +27,11 @@ class BinarySearchTree:
             else:
                 self._insert_helper(current_node.right, value)
 
+    def search(self, value):
+        if self.root is None:
+            return False
+        else:
+           return self._search_helper(self.root, value)
 
 # Initialize your tree
 tree = BinarySearchTree()
