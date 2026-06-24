@@ -61,6 +61,32 @@ class BinarySearchTree:
             # 3. Tell a clone to go all the way right
             self._in_order_helper(current_node.right)
 
+    def pre_order(self):
+        if self.root is None:
+            return
+        else:
+            self._pre_order_helper(self.root)
+            print()
+
+    def _pre_order_helper(self, current_node):
+        if current_node is not None:
+            print(current_node.val, end=" ")
+            self._pre_order_helper(current_node.left)
+            self._pre_order_helper(current_node.right)
+
+    def post_order(self):
+        if self.root is None:
+            return
+        else:
+            self._post_order_helper(self.root)
+            print()
+
+    def _post_order_helper(self, current_node):
+        if current_node is not None:
+            self._post_order_helper(current_node.left)
+            self._post_order_helper(current_node.right)
+            print(current_node.val, end=" ")
+
 
 
 
