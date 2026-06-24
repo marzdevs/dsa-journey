@@ -102,8 +102,25 @@ tree.insert(40)
 tree.insert(60)
 tree.insert(80)
 
-print("In-Order Traversal (Should be perfectly sorted):")
+# Run and compare all three traversals!
+print("--- Tree Traversal Tests ---")
+
+print("1. In-Order (Left -> Parent -> Right):")
+print("   Expected: 20 30 40 50 60 70 80")
+print("   Actual:   ", end="")
 tree.in_order()
+
+print("\n2. Pre-Order (Parent -> Left -> Right):")
+print("   Expected: 50 30 20 40 70 60 80")
+print("   Actual:   ", end="")
+tree.pre_order()
+
+print("\n3. Post-Order (Left -> Right -> Parent):")
+print("   Expected: 20 40 30 60 80 70 50")
+print("   Actual:   ", end="")
+tree.post_order()
+
+print("----------------------------")
 
 print(tree.search(30))  # Should print: True
 print(tree.search(70))  # Should print: True
