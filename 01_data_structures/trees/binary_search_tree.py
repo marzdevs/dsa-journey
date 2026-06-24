@@ -42,8 +42,24 @@ class BinarySearchTree:
             return self._search_helper(current_node.left, value)
         else:
             return self._search_helper(current_node.right, value)
+    # Tree Traversals
+    def in_order(self):
+        if self.root is None:
+            return
+        else:
+            self._in_order_helper(self.root)
+            print()
 
+    def _in_order_helper(self, current_node):
+        if current_node is not None:
+            # 1. Tell a clone to go all the way left
+            self._in_order_helper(current_node.left)
 
+            # 2. Print the current room's value
+            print(current_node.val, end=" ")
+
+            # 3. Tell a clone to go all the way right
+            self._in_order_helper(current_node.right)
 
 
 
@@ -52,11 +68,16 @@ class BinarySearchTree:
 tree = BinarySearchTree()
 
 # Build the structure
-tree = BinarySearchTree()
 tree.insert(50)
 tree.insert(30)
 tree.insert(70)
 tree.insert(20)
+tree.insert(40)
+tree.insert(60)
+tree.insert(80)
+
+print("In-Order Traversal (Should be perfectly sorted):")
+tree.in_order()
 
 print(tree.search(30))  # Should print: True
 print(tree.search(70))  # Should print: True
