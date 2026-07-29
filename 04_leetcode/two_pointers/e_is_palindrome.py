@@ -61,18 +61,29 @@ Another solution:
 
 class Solution:
     def isPalindrome(self, s: str) -> bool:
-        # clear out spaces, symbols, and caps first so we just get clean letters/numbers
-        cleaned = "".join(char.lower() for char in s if char.isalnum())
+        # Step 1: Start with an empty list to hold our valid characters
+        chars = []
 
-        # set up two pointers: one at the start, one at the end of our clean string
-        left, right = 0, len(cleaned) - 1
+        # Step 2: Loop through every character in the original string
+        for char in s:
+            # Step 3: If it's a letter or a number, lowercase it and save it
+            if char.isalnum():
+                chars.append(char.lower())
 
-        # move inward and check if both ends match up
+        # Step 4: Turn our list back into a clean string
+        cleaned = "".join(chars)
+
+        # Step 5: Set up our pointers at the very beginning and very end
+        left = 0
+        right = len(cleaned) - 1
+
+        # Step 6: Walk both pointers inward to check for a match
         while left < right:
             if cleaned[left] != cleaned[right]:
                 return False
+
             left += 1
             right -= 1
 
-        # if everything matched all the way to the middle, it's a palindrome!
+        # Step 7: If everything matches, it's a palindrome!
         return True
