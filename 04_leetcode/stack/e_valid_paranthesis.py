@@ -60,3 +60,26 @@ class Solution:
                     return False
 
         return not stack
+
+    """
+    Another solution:
+    """
+
+    class Solution:
+        def isValid(self, s: str) -> bool:
+            stack = []
+            mapping = {")": "(", "}": "{", "]": "["}
+
+            for char in s:
+                if char not in mapping:
+                    # It's an opening bracket, save it to the stack
+                    stack.append(char)
+                else:
+                    # It's a closing bracket
+                    # Check if stack is empty OR top of stack doesn't match the opening partner
+                    if not stack or stack[-1] != mapping[char]:
+                        return False
+                    stack.pop()
+
+            # If stack is completely empty, everything matched!
+            return not stack
