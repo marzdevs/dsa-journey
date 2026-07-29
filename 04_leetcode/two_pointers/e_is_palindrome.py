@@ -54,3 +54,25 @@ class Solution:
 
         return True
 
+"""
+Another solution:
+"""
+
+
+class Solution:
+    def isPalindrome(self, s: str) -> bool:
+        # clear out spaces, symbols, and caps first so we just get clean letters/numbers
+        cleaned = "".join(char.lower() for char in s if char.isalnum())
+
+        # set up two pointers: one at the start, one at the end of our clean string
+        left, right = 0, len(cleaned) - 1
+
+        # move inward and check if both ends match up
+        while left < right:
+            if cleaned[left] != cleaned[right]:
+                return False
+            left += 1
+            right -= 1
+
+        # if everything matched all the way to the middle, it's a palindrome!
+        return True
