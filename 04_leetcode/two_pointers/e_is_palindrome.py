@@ -55,7 +55,7 @@ class Solution:
         return True
 
 """
-Another solution:
+Another solution
 """
 
 
