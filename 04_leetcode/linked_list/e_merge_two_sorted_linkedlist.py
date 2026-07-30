@@ -68,3 +68,36 @@ class Solution:
         # 4. Return the head of the merged list
         # Hint: It's not 'dummy' itself, but what comes right after it
         return dummy.next
+
+# SOLUTION 2:
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
+
+        # 1. Create a dummy node as a stable anchor, and use 'tail' as our
+        #    construction worker pointer tracking the end of our new list.
+        dummy = ListNode(0)
+        tail = dummy
+
+        # 2. Loop while both lists still have nodes left to compare.
+        while list1 and list2:
+            # Pick the smaller value from the front of the lists
+            if list1.val <= list2.val:
+                tail.next = list1  # Hook tail to list1's current node
+                list1 = list1.next  # Move list1 pointer forward
+            else:
+                tail.next = list2  # Hook tail to list2's current node
+                list2 = list2.next  # Move list2 pointer forward
+
+            # Move our construction worker (tail) forward to the newly attached node
+            tail = tail.next
+
+        # 3. Attach any leftover nodes from whichever list still has items
+        tail.next = list1 or list2
+
+        # 4. Skip the fake dummy node at the start and return the true head of our merged list
+        return dummy.next
