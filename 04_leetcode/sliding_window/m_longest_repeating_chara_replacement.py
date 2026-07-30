@@ -52,3 +52,27 @@ class Solution:
 
             max_length = max(max_length, right - left + 1)
         return max_length
+
+# ANOTHER SOLUTION
+class Solution:
+    def characterReplacement(self, s: str, k: int) -> int:
+        left = 0
+        window_state = {}
+        max_len = 0
+
+        # Expand the window by moving the 'right' pointer across the string
+        for right in range(len(s)):
+            # 1. Add current character into our window count dictionary
+            char = s[right]
+            window_state[char] = window_state.get(char, 0) + 1
+
+            # 2. If replacements needed exceed k, shrink the window from the left
+            # (Total Window Length - Most Frequent Letter Count > k)
+            while (right - left + 1) - max(window_state.values()) > k:
+                window_state[s[left]] -= 1
+                left += 1
+
+            # 3. Update our maximum length answer with the valid window size
+            max_len = max(max_len, right - left + 1)
+
+        return max_len
