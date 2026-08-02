@@ -76,3 +76,21 @@ class Solution:
             max_len = max(max_len, right - left + 1)
 
         return max_len
+
+
+# Another soulution but NEETCODE VERS:
+class Solution:
+    def characterReplacement(self, s: str, k: int) -> int:
+        count = {} # hashmap
+        left = 0
+        res = 0
+
+        for right in range(len(s)):
+            count[s[right]] = count.get(s[right], 0) + 1
+
+            while (right - left + 1) - max(count.values()) > k: # values, get are built in
+                count[s[left]] -= 1
+                left += 1
+
+            res = max(res, right - left + 1)
+        return res
